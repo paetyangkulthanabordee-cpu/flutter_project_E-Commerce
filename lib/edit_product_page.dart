@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'dart:io';
 
 const String baseUrl =
-    "http://127.0.0.1/flutter_project/php_api/";
+    "http://127.0.0.1/flutter_project_E-Commerce/php_api/";
 
 class EditRoomPage extends StatefulWidget {
   final dynamic product;
@@ -22,6 +22,7 @@ class _EditProductPageState extends State<EditRoomPage> {
   late TextEditingController nameController;
   late TextEditingController capacityController;
   late TextEditingController locationController;
+  late TextEditingController priceController;
 
   XFile? selectedImage;
 
@@ -37,6 +38,9 @@ class _EditProductPageState extends State<EditRoomPage> {
 
     locationController =
         TextEditingController(text: widget.product['location']?.toString());
+
+    priceController =
+        TextEditingController(text: widget.product['price']?.toString());
   }
 
   ////////////////////////////////////////////////////////////
@@ -76,6 +80,7 @@ class _EditProductPageState extends State<EditRoomPage> {
       request.fields['room_name'] = nameController.text;
       request.fields['capacity'] = capacityController.text;
       request.fields['location'] = locationController.text;
+      request.fields['price'] = priceController.text;
       request.fields['old_image'] = widget.product['image'];
 
       ////////////////////////////////////////////////////////
@@ -141,7 +146,7 @@ class _EditProductPageState extends State<EditRoomPage> {
         "${baseUrl}images/${widget.product['image']}";
 
     return Scaffold(
-      appBar: AppBar(title: const Text("แก้ไขห้อง")),
+      appBar: AppBar(title: const Text("แก้ไขสินค้า")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
 
@@ -199,6 +204,11 @@ class _EditProductPageState extends State<EditRoomPage> {
               TextField(
                 controller: locationController,
                 decoration: const InputDecoration(labelText: "รายละเอียดสินค้า"),
+              ),
+
+              TextField(
+                controller: priceController,
+                decoration: const InputDecoration(labelText: "ราคาสินค้า"),
               ),
 
               const SizedBox(height: 20),

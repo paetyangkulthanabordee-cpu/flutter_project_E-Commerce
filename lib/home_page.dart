@@ -13,10 +13,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // 🔹 AppBar = แถบด้านบนของแอป
-      backgroundColor: const Color.fromARGB(255, 154, 237, 248), // ✅ ใส่ตรงนี้
+      backgroundColor: const Color.fromARGB(255, 200, 141, 73), // ✅ ใส่ตรงนี้
       appBar: AppBar(
         title: const Text('หน้าแรก'),
-        backgroundColor: const Color.fromARGB(255, 174, 175, 99),
+        backgroundColor: const Color.fromARGB(255, 78, 64, 0),
         foregroundColor: Colors.white, // ✅ สีไอคอน + ข้อความ
       ),
 
@@ -27,8 +27,8 @@ class HomePage extends StatelessWidget {
           children: [
             // 🔸 Header ของ Drawer (ส่วนหัว)
             const UserAccountsDrawerHeader(
-              accountName: Text('Cloth Shop'), // ชื่อผู้ใช้
-              accountEmail: Text('CS@gmail.com'), // อีเมล
+              accountName: Text('Top victories'), // ชื่อผู้ใช้
+              accountEmail: Text('TP@gmail.com'), // อีเมล
               currentAccountPicture: CircleAvatar(
                 child: Icon(Icons.person), // ไอคอนโปรไฟล์
               ),
@@ -86,9 +86,9 @@ class HomePage extends StatelessWidget {
             //////////////////////////////////////////////////
             Center(
               child: Image.asset(
-                'assets/images/banner.jpg',
-                width: 400,
-                height: 200,
+                'assets/images/clothes.png',
+                width: 500,
+                height: 400,
                 fit: BoxFit.cover,
               ),
             ),

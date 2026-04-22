@@ -10,7 +10,7 @@ import 'Home_page.dart' hide HomePage;
 // API URL
 //////////////////////////////////////////////////////////////
 
-const String baseUrl = "http://localhost/flutter_project/php_api/";
+const String baseUrl = "http://localhost/flutter_project_E-Commerce/php_api/";
 
 //////////////////////////////////////////////////////////////
 // ROOM LIST PAGE
@@ -245,6 +245,9 @@ return Scaffold(
 
                           Text(
                               "Location: ${room['location']}"),
+                          
+                           Text(
+                              "Price: ${room['price']}"),
 
                         ],
 

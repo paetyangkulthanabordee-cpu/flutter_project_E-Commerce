@@ -18,6 +18,7 @@ try {
     $room_name = $_POST['room_name'];
     $capacity = $_POST['capacity'];
     $location = $_POST['location'];
+    $price = $_POST['price'];
     $oldImage = $_POST['old_image'];
 
     $imageName = $oldImage;
@@ -47,6 +48,7 @@ try {
             SET room_name = :room_name,
                 capacity = :capacity,
                 location = :location,
+                price = :price,
                 image = :image
             WHERE id = :id";
 
@@ -56,6 +58,7 @@ try {
     $stmt->bindParam(':room_name', $room_name);
     $stmt->bindParam(':capacity', $capacity);
     $stmt->bindParam(':location', $location);
+    $stmt->bindParam(':price', $price);
     $stmt->bindParam(':image', $imageName);
 
     $stmt->execute();

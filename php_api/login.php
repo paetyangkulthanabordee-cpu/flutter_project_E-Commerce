@@ -18,7 +18,7 @@ if($user){
  echo json_encode([
   "status"=>"success",
   "username"=>$user["username"],
-  "name"=>$user["fname"] . " " . $user["lname"]
+  "name"=>$user["first_name"] . " " . $user["last_name"]
  ]);
 
 }else{

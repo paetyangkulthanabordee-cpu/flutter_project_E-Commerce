@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   bool isPasswordHidden = true;
 
   Future login() async {
-    var url = Uri.parse("http://localhost/flutter_project/php_api/login.php");
+    var url = Uri.parse("http://localhost/flutter_project_E-Commerce/php_api/login.php");
 
     var response = await http.post(
       url,

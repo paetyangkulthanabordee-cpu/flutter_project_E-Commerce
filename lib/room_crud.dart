@@ -13,7 +13,7 @@ import 'home_page.dart';
 //////////////////////////////////////////////////////////////
 
 const String baseUrl =
-    "http://127.0.0.1/flutter_project/php_api/";
+    "http://127.0.0.1/flutter_project_E-Commerce/php_api/";
 
 
 
@@ -386,6 +386,10 @@ class ProductDetail extends StatelessWidget {
 
             Text(
               'สินค้าคงเหลือ: ${product['capacity']} ตัว',
+              style: const TextStyle(fontSize: 18),
+            ),
+            Text(
+              'ราคาสินค้า: ${product['price']} บาท',
               style: const TextStyle(fontSize: 18),
             ),
           ],

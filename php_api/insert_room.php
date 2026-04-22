@@ -6,6 +6,7 @@ header('Content-Type: application/json');
 $room_name = $_POST['room_name'];
 $capacity = $_POST['capacity'];
 $location = $_POST['location'];
+$price = $_POST['price'];
 
 ////////////////////////////////////////////////////////////
 // ✅ รับรูปภาพ
@@ -35,13 +36,14 @@ if (isset($_FILES['image'])) {
 try {
 
     $stmt = $conn->prepare("
-        INSERT INTO rooms (room_name, capacity, location, image)
-        VALUES (:room_name, :capacity, :location, :image)
+        INSERT INTO rooms (room_name, capacity, location, price, image)
+        VALUES (:room_name, :capacity, :location, :price, :image)
     ");
 
     $stmt->bindParam(":room_name", $room_name);
     $stmt->bindParam(":capacity", $capacity);
     $stmt->bindParam(":location", $location);
+    $stmt->bindParam(":price", $price);
     $stmt->bindParam(":image", $imageName);
 
     if ($stmt->execute()) {

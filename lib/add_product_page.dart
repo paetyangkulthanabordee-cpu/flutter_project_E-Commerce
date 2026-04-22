@@ -13,7 +13,6 @@ class AddRoomPage extends StatefulWidget {
 }
 
 class _AddProductPageState extends State<AddRoomPage> {
-
   ////////////////////////////////////////////////////////////
   // ✅ Controllers
   ////////////////////////////////////////////////////////////
@@ -21,6 +20,7 @@ class _AddProductPageState extends State<AddRoomPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController capacityController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
 
   ////////////////////////////////////////////////////////////
   // ✅ Image (ใช้ XFile รองรับ Web)
@@ -31,9 +31,7 @@ class _AddProductPageState extends State<AddRoomPage> {
   Future<void> pickImage() async {
     final picker = ImagePicker();
 
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-    );
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
@@ -47,16 +45,15 @@ class _AddProductPageState extends State<AddRoomPage> {
   ////////////////////////////////////////////////////////////
 
   Future<void> saveProduct() async {
-
     if (selectedImage == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("กรุณาเลือกรูปภาพ")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("กรุณาเลือกรูปภาพ")));
       return;
     }
 
     final url = Uri.parse(
-      "http://localhost/flutter_project/php_api/insert_room.php",
+      "http://localhost/flutter_project_E-Commerce/php_api/insert_room.php",
     );
 
     var request = http.MultipartRequest('POST', url);
@@ -68,13 +65,13 @@ class _AddProductPageState extends State<AddRoomPage> {
     request.fields['room_name'] = nameController.text;
     request.fields['capacity'] = capacityController.text;
     request.fields['location'] = locationController.text;
+    request.fields['price'] = priceController.text;
 
     ////////////////////////////////////////////////////////////
     // ✅ Upload Image (แยก Web / Mobile)
     ////////////////////////////////////////////////////////////
 
     if (kIsWeb) {
-
       final bytes = await selectedImage!.readAsBytes();
 
       request.files.add(
@@ -84,14 +81,9 @@ class _AddProductPageState extends State<AddRoomPage> {
           filename: selectedImage!.name,
         ),
       );
-
     } else {
-
       request.files.add(
-        await http.MultipartFile.fromPath(
-          'image',
-          selectedImage!.path,
-        ),
+        await http.MultipartFile.fromPath('image', selectedImage!.path),
       );
     }
 
@@ -105,18 +97,15 @@ class _AddProductPageState extends State<AddRoomPage> {
     final data = json.decode(responseData);
 
     if (data["success"] == true) {
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("เพิ่มสินค้าเรียบร้อย")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("เพิ่มสินค้าเรียบร้อย")));
 
       Navigator.pop(context, true);
-
     } else {
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${data["error"]}")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: ${data["error"]}")));
     }
   }
 
@@ -135,32 +124,26 @@ class _AddProductPageState extends State<AddRoomPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-
               ////////////////////////////////////////////////////////////
               // 🖼 Image Preview (สำคัญมาก)
               ////////////////////////////////////////////////////////////
-
               GestureDetector(
                 onTap: pickImage,
                 child: Container(
                   height: 150,
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                  ),
+                  decoration: BoxDecoration(border: Border.all()),
                   child: selectedImage == null
-                      ? const Center(
-                          child: Text("แตะเพื่อเลือกรูป"),
-                        )
+                      ? const Center(child: Text("แตะเพื่อเลือกรูป"))
                       : kIsWeb
-                          ? Image.network(
-                              selectedImage!.path, // ✅ Web
-                              fit: BoxFit.cover,
-                            )
-                          : Image.file(
-                              File(selectedImage!.path), // ✅ Mobile
-                              fit: BoxFit.cover,
-                            ),
+                      ? Image.network(
+                          selectedImage!.path, // ✅ Web
+                          fit: BoxFit.cover,
+                        )
+                      : Image.file(
+                          File(selectedImage!.path), // ✅ Mobile
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
 
@@ -169,7 +152,6 @@ class _AddProductPageState extends State<AddRoomPage> {
               ////////////////////////////////////////////////////////////
               // 🏷 Name
               ////////////////////////////////////////////////////////////
-
               TextField(
                 controller: nameController,
                 decoration: const InputDecoration(
@@ -183,12 +165,11 @@ class _AddProductPageState extends State<AddRoomPage> {
               ////////////////////////////////////////////////////////////
               // 💰 Price
               ////////////////////////////////////////////////////////////
-
               TextField(
                 controller: capacityController,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  labelText: "สินค้าคงเหลือ",
+                  labelText: "จำนวน",
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -198,12 +179,20 @@ class _AddProductPageState extends State<AddRoomPage> {
               ////////////////////////////////////////////////////////////
               // 📝 Description
               ////////////////////////////////////////////////////////////
-
               TextField(
                 controller: locationController,
-                
                 decoration: const InputDecoration(
-                  labelText: "ราบละเอียดสินค้า",
+                  labelText: "รายละเอียดสินค้า",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              TextField(
+                controller: priceController,
+                decoration: const InputDecoration(
+                  labelText: "ราคาสินค้า",
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -213,12 +202,11 @@ class _AddProductPageState extends State<AddRoomPage> {
               ////////////////////////////////////////////////////////////
               // ✅ Button
               ////////////////////////////////////////////////////////////
-
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: saveProduct,
-                  child: const Text("บันทึกข้อมูลการสั่งซื้อ"),
+                  child: const Text("บันทึกข้อมูล"),
                 ),
               ),
             ],
