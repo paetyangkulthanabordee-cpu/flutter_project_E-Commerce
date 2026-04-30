@@ -48,58 +48,7 @@ class _BookingPageState extends State<BookingPage> {
   });
 }
 
-  ////////////////////////////////////////////////////////////
-  // DATE PICKER
-  ////////////////////////////////////////////////////////////
-
-  Future pickDate() async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(), // ห้ามเลือกวันที่ย้อนหลัง
-      lastDate: DateTime(2030),
-    );
-
-    if (picked != null) {
-      setState(() {
-        descController.text =
-            "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
-      });
-    }
-  }
-
-  ////////////////////////////////////////////////////////////
-  // TIME PICKER
-  ////////////////////////////////////////////////////////////
-
-  Future pickStartTime() async {
-    TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-
-    if (picked != null) {
-      setState(() {
-        startController.text =
-            "${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}";
-      });
-    }
-  }
-
-  Future pickEndTime() async {
-    TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-
-    if (picked != null) {
-      setState(() {
-        endController.text =
-            "${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}";
-      });
-    }
-  }
-
+ 
   ////////////////////////////////////////////////////////////
   // SAVE BOOKING
   ////////////////////////////////////////////////////////////
@@ -108,21 +57,15 @@ class _BookingPageState extends State<BookingPage> {
     // ตรวจสอบกรอกข้อมูลครบ
     if (nameController.text.isEmpty ||
         descController.text.isEmpty ||
-        startController.text.isEmpty ||
-        endController.text.isEmpty) {
+        qtyController.text.isEmpty ||
+        priceController.text.isEmpty) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("กรุณากรอกข้อมูลให้ครบ")));
       return;
     }
 
-    // ตรวจสอบเวลาเริ่ม < เวลาสิ้นสุด
-    if (startController.text.compareTo(endController.text) >= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("เวลาเริ่มต้องน้อยกว่าเวลาสิ้นสุด")),
-      );
-      return;
-    }
+
 
     var url = Uri.parse(
       "http://localhost/flutter_project_E-Commerce/php_api/add_booking.php",
@@ -144,7 +87,7 @@ class _BookingPageState extends State<BookingPage> {
     if (data['status'] == "success") {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text("จองสำเร็จ")));
+      ).showSnackBar(const SnackBar(content: Text("บันทึกคำสั่งซื้อสำเร็จ")));
 
       Navigator.pop(context);
     } else if (data['status'] == "unavailable") {
