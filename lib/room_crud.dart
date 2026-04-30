@@ -235,7 +235,7 @@ class _ProductListState extends State<RoomPage> {
                             child: Image.network(
                               imageUrl,
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) =>
+                              errorBuilder: (_, _, _) =>
                                   const Icon(Icons.image_not_supported),
                             ),
                           ),
@@ -350,7 +350,7 @@ class ProductDetail extends StatelessWidget {
                 imageUrl,
                 height: 200,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) =>
+                errorBuilder: (_, _, _) =>
                     const Icon(Icons.image_not_supported, size: 100),
               ),
             ),
@@ -376,9 +376,9 @@ class ProductDetail extends StatelessWidget {
             //////////////////////////////////////////////////////
 
             Text(
-              'รายละเอียดสินค้า: ${product['location']}'),
-              
-            const SizedBox(height: 10),
+              'รายละเอียดสินค้า: ${product['location']} ตัว',
+              style: const TextStyle(fontSize: 18),
+            ),
 
             //////////////////////////////////////////////////////
             // 💰 PRICE

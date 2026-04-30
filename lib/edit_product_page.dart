@@ -170,7 +170,7 @@ class _EditProductPageState extends State<EditRoomPage> {
                       ? Image.network(
                           imageUrl,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) =>
+                          errorBuilder: (_, _, _) =>
                               const Icon(Icons.image_not_supported),
                         )
                       : kIsWeb

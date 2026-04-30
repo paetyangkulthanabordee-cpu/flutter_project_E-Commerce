@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'booking_page.dart';
 import 'booking_list.dart';
-import 'Home_page.dart' hide HomePage;
 
 //////////////////////////////////////////////////////////////
 // API URL
@@ -103,7 +102,7 @@ return Scaffold(
   ////////////////////////////////////////////////////////
 
   appBar: AppBar(
-    title: const Text("Cloth Shop"),
+    title: const Text("Top victories Shop"),
     actions: [
       Text("Welcome . ${widget.name}"),
           const SizedBox(width: 28 ,),
@@ -216,7 +215,7 @@ return Scaffold(
                           height: 70,
                           fit: BoxFit.cover,
 
-                          errorBuilder: (_, __, ___) =>
+                          errorBuilder: (_, _, _) =>
                               const Icon(
                                   Icons.meeting_room),
 
@@ -241,13 +240,13 @@ return Scaffold(
                         children: [
 
                           Text(
-                              "Capacity: ${room['capacity']} คน"),
+                              "จำนวนสินค้า: ${room['capacity']} "),
 
                           Text(
-                              "Location: ${room['location']}"),
+                              "รายละเอียดสินค้า: ${room['location']}"),
                           
                            Text(
-                              "Price: ${room['price']}"),
+                              "ราคา: ${room['price']} บาท"),
 
                         ],
 
@@ -285,7 +284,7 @@ trailing: Wrap(
 
     IconButton(
       icon: const Icon(Icons.event_note, color: Colors.orange),
-      tooltip: "ดูข้อมูลการสั่งซื้อ",
+      tooltip: "ดูข้อมูลประวัติการสั่งซื้อ",
       onPressed: () {
 
         Navigator.push(
