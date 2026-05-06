@@ -186,8 +186,7 @@ class _RoomListState extends State<RoomList> {
                                             ),
                                           ),
                                           const SizedBox(height: 4),
-                                          // ใช้ 'qty' หรือ 'capacity' ตามชื่อ Column ใน Database ของคุณ
-                                          Text("จำนวนสินค้า: ${room['qty'] ??  0}"),
+                                          // ใช้ 'qty' หรือ 'capacity' ตามชื่อ Column ใน Database ของคุณ                                          
                                           Text(
                                             "ราคา: ${room['price']} บาท",
                                             style: const TextStyle(
