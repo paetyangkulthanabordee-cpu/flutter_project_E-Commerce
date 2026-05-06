@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_booking/all_orders_page.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -160,7 +161,7 @@ class _ProductListState extends State<RoomPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => const BookingList(),
+              builder: (_) => const AllOrdersPage(),
             ),
           );
 
@@ -376,7 +377,7 @@ class ProductDetail extends StatelessWidget {
             //////////////////////////////////////////////////////
 
             Text(
-              'รายละเอียดสินค้า: ${product['location']} ตัว',
+              'รายละเอียดสินค้า: ${product['location']} ',
               style: const TextStyle(fontSize: 18),
             ),
 
@@ -384,10 +385,7 @@ class ProductDetail extends StatelessWidget {
             // 💰 PRICE
             //////////////////////////////////////////////////////
 
-            Text(
-              'สินค้าคงเหลือ: ${product['capacity']} ตัว',
-              style: const TextStyle(fontSize: 18),
-            ),
+            
             Text(
               'ราคาสินค้า: ${product['price']} บาท',
               style: const TextStyle(fontSize: 18),

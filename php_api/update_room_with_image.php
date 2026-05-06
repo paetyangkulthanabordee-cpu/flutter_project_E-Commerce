@@ -15,8 +15,7 @@ header('Content-Type: application/json');
 try {
 
     $id = $_POST['id'];
-    $room_name = $_POST['room_name'];
-    $capacity = $_POST['capacity'];
+    $room_name = $_POST['room_name'];    
     $location = $_POST['location'];
     $price = $_POST['price'];
     $oldImage = $_POST['old_image'];
@@ -45,8 +44,7 @@ try {
     }
 
     $sql = "UPDATE rooms 
-            SET room_name = :room_name,
-                capacity = :capacity,
+            SET room_name = :room_name,                
                 location = :location,
                 price = :price,
                 image = :image
@@ -55,8 +53,7 @@ try {
     $stmt = $conn->prepare($sql);
 
     $stmt->bindParam(':id', $id);
-    $stmt->bindParam(':room_name', $room_name);
-    $stmt->bindParam(':capacity', $capacity);
+    $stmt->bindParam(':room_name', $room_name);    
     $stmt->bindParam(':location', $location);
     $stmt->bindParam(':price', $price);
     $stmt->bindParam(':image', $imageName);

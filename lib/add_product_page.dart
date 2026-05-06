@@ -17,8 +17,7 @@ class _AddProductPageState extends State<AddRoomPage> {
   // ✅ Controllers
   ////////////////////////////////////////////////////////////
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController capacityController = TextEditingController();
+  final TextEditingController nameController = TextEditingController(); 
   final TextEditingController locationController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
 
@@ -62,8 +61,7 @@ class _AddProductPageState extends State<AddRoomPage> {
     // ✅ Fields
     ////////////////////////////////////////////////////////////
 
-    request.fields['room_name'] = nameController.text;
-    request.fields['capacity'] = capacityController.text;
+    request.fields['room_name'] = nameController.text;    
     request.fields['location'] = locationController.text;
     request.fields['price'] = priceController.text;
 
@@ -162,20 +160,7 @@ class _AddProductPageState extends State<AddRoomPage> {
 
               const SizedBox(height: 15),
 
-              ////////////////////////////////////////////////////////////
-              // 💰 Price
-              ////////////////////////////////////////////////////////////
-              TextField(
-                controller: capacityController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: "จำนวน",
-                  border: OutlineInputBorder(),
-                ),
-              ),
-
-              const SizedBox(height: 15),
-
+                                          
               ////////////////////////////////////////////////////////////
               // 📝 Description
               ////////////////////////////////////////////////////////////

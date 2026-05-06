@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'dart:io';
 
 const String baseUrl =
-    "http://127.0.0.1/flutter_project_E-Commerce/php_api/";
+    "http://127.0.0.1/flutter_project_E-Commerce/php_api/"; 
 
 class EditRoomPage extends StatefulWidget {
   final dynamic product;
@@ -19,8 +19,7 @@ class EditRoomPage extends StatefulWidget {
 
 class _EditProductPageState extends State<EditRoomPage> {
 
-  late TextEditingController nameController;
-  late TextEditingController capacityController;
+  late TextEditingController nameController;  
   late TextEditingController locationController;
   late TextEditingController priceController;
 
@@ -32,9 +31,6 @@ class _EditProductPageState extends State<EditRoomPage> {
 
     nameController =
         TextEditingController(text: widget.product['room_name']?.toString());
-
-    capacityController =
-        TextEditingController(text: widget.product['capacity']?.toString());
 
     locationController =
         TextEditingController(text: widget.product['location']?.toString());
@@ -78,7 +74,7 @@ class _EditProductPageState extends State<EditRoomPage> {
 
       request.fields['id'] = widget.product['id'].toString();
       request.fields['room_name'] = nameController.text;
-      request.fields['capacity'] = capacityController.text;
+      
       request.fields['location'] = locationController.text;
       request.fields['price'] = priceController.text;
       request.fields['old_image'] = widget.product['image'];
@@ -194,12 +190,7 @@ class _EditProductPageState extends State<EditRoomPage> {
 
               const SizedBox(height: 10),
 
-              TextField(
-                controller: capacityController,
-                decoration: const InputDecoration(labelText: "จำนวนสินค้า"),
-              ),
-
-              const SizedBox(height: 10),
+             
 
               TextField(
                 controller: locationController,

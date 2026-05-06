@@ -1,72 +1,35 @@
 <?php
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
 
-header("Content-Type: application/json");
-include "condb.php";
+include "condb.php"; // ตรวจสอบว่าชื่อไฟล์เชื่อมต่อฐานข้อมูลถูกต้อง
 
-$room_id = $_POST['room_id'];
-$user_name = $_POST['user_name'];
-$booking_date = $_POST['booking_date'];
-$start_time = $_POST['start_time'];
-$end_time = $_POST['end_time'];
+try {
+    // รับค่าจาก Flutter ผ่าน $_POST
+    $room_id   = $_POST['room_id'];
+    $user_name = $_POST['user_name'];
+    $qty       = $_POST['qty'];
+    $price     = $_POST['price'];
+    $date      = date('Y-m-d H:i:s'); // วันที่ปัจจุบัน
 
-////////////////////////////////////////////////////
-// CHECK TIME CONFLICT
-////////////////////////////////////////////////////
+    // คำสั่ง SQL สำหรับบันทึกข้อมูล
+    $sql = "INSERT INTO bookings (room_id, user_name, qty, price, booking_date) 
+            VALUES (?, ?, ?, ?, ?)";
+    
+    $stmt = $conn->prepare($sql);
+    $result = $stmt->execute([$room_id, $user_name, $qty, $price, $date]);
 
-$sql_check = "SELECT * FROM bookings
-WHERE room_id = :room_id
-AND booking_date = :booking_date
-AND start_time < :end_time
-AND end_time > :start_time";
+    if ($result) {
+        echo json_encode(["status" => "success", "message" => "บันทึกข้อมูลสำเร็จ"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "ไม่สามารถบันทึกข้อมูลได้"]);
+    }
 
-$stmt = $conn->prepare($sql_check);
-
-$stmt->bindParam(":room_id",$room_id);
-$stmt->bindParam(":booking_date",$booking_date);
-$stmt->bindParam(":start_time",$start_time);
-$stmt->bindParam(":end_time",$end_time);
-
-$stmt->execute();
-
-if($stmt->rowCount() > 0){
-
+} catch (PDOException $e) {
     echo json_encode([
-        "status"=>"unavailable",
-        "message"=>"ห้องไม่ว่าง เวลาซ้อนกัน"
+        "status" => "error",
+        "message" => "Database Error: " . $e->getMessage()
     ]);
-
-    exit;
 }
-
-////////////////////////////////////////////////////
-// INSERT BOOKING
-////////////////////////////////////////////////////
-
-$sql = "INSERT INTO bookings
-(room_id,user_name,booking_date,start_time,end_time)
-VALUES
-(:room_id,:user_name,:booking_date,:start_time,:end_time)";
-
-$stmt = $conn->prepare($sql);
-
-$stmt->bindParam(":room_id",$room_id);
-$stmt->bindParam(":user_name",$user_name);
-$stmt->bindParam(":booking_date",$booking_date);
-$stmt->bindParam(":start_time",$start_time);
-$stmt->bindParam(":end_time",$end_time);
-
-if($stmt->execute()){
-
-    echo json_encode([
-        "status"=>"success"
-    ]);
-
-}else{
-
-    echo json_encode([
-        "status"=>"error"
-    ]);
-
-}
-
 ?>

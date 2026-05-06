@@ -108,9 +108,11 @@ class _BookingListState extends State<BookingList> {
 
                   Text("ผู้จอง: ${b['user_name']}"),
 
-                  Text("วันที่: ${b['booking_date']}"),
+                  Text("รายละเอียดสินค้า: ${b['booking_date']}"),
 
-                  Text("เวลา: ${b['start_time']} - ${b['end_time']}"),
+                  Text("จำนวน: ${b['qty']}"),
+
+                  Text("ราคา: ${b['price']} บาท "),
 
                 ],
               ),

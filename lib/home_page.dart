@@ -4,6 +4,7 @@ import 'package:flutter_booking/Login.dart';
 // import หน้าอื่น
 import 'booking_list.dart';
 import 'login_admin.dart';
+import 'register_page.dart';
 
 // สร้างหน้า HomePage (หน้าแรก)
 class HomePage extends StatelessWidget {
@@ -42,22 +43,7 @@ class HomePage extends StatelessWidget {
                 Navigator.pop(context); // ปิด Drawer
               },
             ),
-
-            // 🔸 เมนู: ไปหน้า Page 1
-            ListTile(
-              leading: const Icon(Icons.pageview),
-              title: const Text('ข้อมูลการสั่งซื้อทั้งหมด'),
-              onTap: () {
-                Navigator.pop(context); // ปิด Drawer ก่อน
-
-                // 🔹 เปิดหน้าใหม่ (Page1)
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const BookingList()),
-                );
-              },
-            ),
-
+                       
             // 🔸 เมนู: ไปหน้า Page 2
             ListTile(
               leading: const Icon(Icons.pages),
@@ -109,22 +95,45 @@ class HomePage extends StatelessWidget {
             // 🔘 ปุ่ม Login
             //////////////////////////////////////////////////
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: SizedBox(
-                // width: double.infinity,
-                // height: 50,
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.login),
-                  label: const Text('เข้าสู่ระบบ'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const LoginPage()),
-                    );
-                  },
-                ),
-              ),
-            ),
+  padding: const EdgeInsets.symmetric(horizontal: 20),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.center, // จัดให้อยู่ตรงกลาง
+    children: [
+      // ปุ่มเข้าสู่ระบบ[cite: 6]
+      ElevatedButton.icon(
+        icon: const Icon(Icons.login),
+        label: const Text('เข้าสู่ระบบ'),
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)), // ทำปุ่มมนเหมือนในรูป
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const LoginPage()),
+          );
+        },
+      ),
+
+      const SizedBox(width: 15), // เว้นระยะห่างระหว่างปุ่ม
+
+      // ปุ่มสมัครสมาชิก[cite: 6]
+      ElevatedButton.icon(
+        icon: const Icon(Icons.person_add),
+        label: const Text('สมัครสมาชิก'),
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)), // ทำปุ่มมน
+        ),
+        onPressed: () {
+          // ใส่หน้าที่ต้องการให้ไปหลังจากกดสมัครสมาชิก
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const RegisterPage()), 
+          );
+        },
+      ),
+    ],
+  ),
+),
 
             const SizedBox(height: 30),
           ],

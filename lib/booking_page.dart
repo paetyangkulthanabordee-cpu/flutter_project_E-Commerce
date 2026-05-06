@@ -54,60 +54,52 @@ class _BookingPageState extends State<BookingPage> {
   ////////////////////////////////////////////////////////////
 
   Future saveBooking() async {
-    // ตรวจสอบกรอกข้อมูลครบ
+    // 1. ตรวจสอบความครบถ้วนของข้อมูล[cite: 4]
     if (nameController.text.isEmpty ||
         descController.text.isEmpty ||
-        qtyController.text.isEmpty ||
-        priceController.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("กรุณากรอกข้อมูลให้ครบ")));
+        qtyController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("กรุณากรอกข้อมูลให้ครบ")));
       return;
     }
 
+    // 2. ปรับ URL สำหรับ Emulator (ถ้าใช้เครื่องจริงให้เปลี่ยนเป็น IP คอมพิวเตอร์)
+    var url = Uri.parse("http://127.0.0.1/flutter_project_E-Commerce/php_api/add_booking.php");
 
+    try {
+      // 3. ส่งข้อมูล[cite: 4]
+      var response = await http.post(
+        url,
+        body: {
+          "room_id": widget.room['id'].toString(), 
+          "user_name": nameController.text,        
+          "booking_date": DateTime.now().toString(), // ส่งวันที่ปัจจุบันเข้าไปแทนเพื่อให้ DB สมบูรณ์
+          "qty": qtyController.text,              
+          "price": priceController.text,          
+        },
+      );
 
-    var url = Uri.parse(
-      "http://localhost/flutter_project_E-Commerce/php_api/add_booking.php",
-    );
-
-    var response = await http.post(
-      url,
-      body: {
-        "room_id": widget.room['id'].toString(),
-        "user_name": nameController.text,
-        "booking_date": descController.text,
-        "start_time": startController.text,
-        "end_time": endController.text,
-      },
-    );
-
-    var data = jsonDecode(response.body);
-
-    if (data['status'] == "success") {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("บันทึกคำสั่งซื้อสำเร็จ")));
-
-      Navigator.pop(context);
-    } else if (data['status'] == "unavailable") {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("ห้องไม่ว่าง เวลาชนกัน")));
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("เกิดข้อผิดพลาด")));
+      // 4. ตรวจสอบการตอบกลับ[cite: 4]
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        if (data['status'] == "success") {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("บันทึกการสั่งซื้อสำเร็จ")));
+          Navigator.pop(context);
+        } else {
+          // แสดง Error จริงจาก PHP มาดู[cite: 1]
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Error: ${data['message']}")));
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("เชื่อมต่อเซิร์ฟเวอร์ไม่ได้")));
+      }
+    } catch (e) {
+      print(e); // ดู Error ใน Console[cite: 2]
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("เกิดข้อผิดพลาดในการเชื่อมต่อ")));
     }
-  }
-
-  @override
-  void dispose() {
-    nameController.dispose();
-    descController.dispose();
-    startController.dispose();
-    endController.dispose();
-    super.dispose();
   }
 
   ////////////////////////////////////////////////////////////
@@ -116,11 +108,11 @@ class _BookingPageState extends State<BookingPage> {
 
   @override
   Widget build(BuildContext context) {
-    String roomName = widget.room['room_name'] ?? "Meeting Room";
+    String roomName = widget.room['room_name'] ?? "Clothes";
     String roomImage = widget.room['image'] ?? "";
 
     return Scaffold(
-      appBar: AppBar(title: Text("จอง $roomName")),
+      appBar: AppBar(title: Text("สั่งซื้อ $roomName")),
 
       body: Padding(
         padding: const EdgeInsets.all(16),
